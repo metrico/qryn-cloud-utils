@@ -2,3 +2,7 @@
 
 # qryn-cloud utils
 Various Utilities and Scripts for `qryn-cloud` deployments
+
+### Utilities
+
+- [Migrator](https://github.com/metrico/qryn-cloud-utils/tree/main/migrator): Migrate data `from qryn-js` to `qryn-cloud`
