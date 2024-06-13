@@ -1,14 +1,14 @@
 ## ~~~~~CONFIGURATIONS~~~~~
-from_db=from; #OLD db name
-to_db=to; #NEW db name
-to_org_id=0; #NEW org id
-to_ttl_days=8; # ttl_days you want to keep your data
-               # NOTE add a couple of days so the first copied date is stored for a couple of extra days.
-               # in another case the verification doesn't work due to some data is rotated immediately
-dates='2024-06-03 2024-06-04 2024-06-05 2024-06-06'; #dates you want to copy separated by space
+from_db=qryn_oss; # CURRENT QRYN-OSS db name 
+to_db=qryn_cloud; # TARGET QRYN-Cloud db name
+to_org_id=0; # TARGET org id for imported data
+to_ttl_days=8; # TTL days you want to keep imported data
+               # NOTE: always extend the TTL considering the FIRST timestamp of imported data.
+               # failing to do so might cause data to be rotated instantly and validations to fail
+dates='2024-06-03 2024-06-04 2024-06-05 2024-06-06'; # dates you want to copy separated by space
 CLICKHOUSE_CLIENT='clickhouse-client --user default --host localhost --port 9440 --secure --password secret_pass'; # command to connect clickhouse-client cli
-drop_data='1'; #should we drop the old data after copy? 1 - yes 0 - no
-del_wait_timeout_s='5'; #how long we should wait for the user to change mind before deleting (sec)?
+drop_data='0'; # should we drop the old data after copy? 1 - yes 0 - no
+del_wait_timeout_s='5'; # how long we should wait for the user to change mind before deleting (sec)?
 ## ~~~END CONFIGURATIONS~~~
 
 for date in ${dates}; do
