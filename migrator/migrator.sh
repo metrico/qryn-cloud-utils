@@ -16,8 +16,8 @@ for date in ${dates}; do
     ## SAMPLES
     echo "copying samples_v3.$date ${from_db} -> ${to_db} ..."
     cat <<EOF | $CLICKHOUSE_CLIENT || exit 1
-        INSERT INTO ${to_db}.samples_v4 (org_id, fingerprint, timestamp_ns, value, string, ttl_days)
-        SELECT '${to_org_id}' as org_id, fingerprint, timestamp_ns, value, string, ${to_ttl_days} as ttl_days
+        INSERT INTO ${to_db}.samples_v4 (org_id, fingerprint, timestamp_ns, value, string, ttl_days, type_v2)
+        SELECT '${to_org_id}' as org_id, fingerprint, timestamp_ns, value, string, ${to_ttl_days} as ttl_days, type as type_v2
         FROM ${from_db}.samples_v3
         WHERE (timestamp_ns >= (toUnixTimestamp(toDateTime('${date}')) * 1000000000)) AND (timestamp_ns < ((toUnixTimestamp(toDateTime('${date}')) + ((24 * 60) * 60)) * 1000000000))
 EOF
@@ -47,8 +47,8 @@ EOF
     ## TIME SERIES
     echo "copying time_series.$date ${from_db} -> ${to_db} ..."
     cat <<EOF | $CLICKHOUSE_CLIENT >./out || exit 1
-        INSERT INTO ${to_db}.time_series_v2 (org_id, date, fingerprint, labels, name, type, ttl_days)
-        SELECT '${to_org_id}' as org_id, date, fingerprint, labels, name, type, ${to_ttl_days} as ttl_days
+        INSERT INTO ${to_db}.time_series_v2 (org_id, date, fingerprint, labels, name, type, ttl_days, type_v2)
+        SELECT '${to_org_id}' as org_id, date, fingerprint, labels, name, type, ${to_ttl_days} as ttl_days, type as type_v2
         FROM ${from_db}.time_series
         WHERE date='${date}'
 EOF
